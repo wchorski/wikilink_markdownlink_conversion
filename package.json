@@ -1,0 +1,15 @@
+{
+  "name": "wikilink_markdownlink_conversion",
+  "version": "0.0.1",
+  "description": "used with markdown notes (like ones created with Obsidian) to help convert internal markdown links to wikilinks, and maybe a vice versa later",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.11.20"
+  }
+}
