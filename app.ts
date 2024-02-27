@@ -1,4 +1,4 @@
-import fs from 'fs';
+import { readdir, readFile, writeFile, stat } from 'node:fs/promises';
 import path from 'path';
 import { addWikilinkAlias, convertWikilinkToMarkdownLink, findWililinks, findWililinksWithNoAlias } from './utils/convertWikilink';
 import { convertMarkdownToWikilink, findMarkdownLinks } from './utils/convertMarkdownLink';
@@ -14,49 +14,65 @@ export type Link = {
 
 type ExportType = 'wikilink'|'markdownLink'|'borkedExternalWiki'|'addWikilinkAlias'
 
-function findUrlsAndWriteToFile(filePath:string, exportType:ExportType) {
-  
+async function processFile(filePath:string, exportType:ExportType) {
 
-  fs.readFile(filePath, 'utf8', (err, contents) => {
-    if (err) throw err;
-
+  try {
+    let contents = await readFile(filePath, 'utf8')
     let contentsModified = contents
     const foundLinks = findTypeSelect(contents, exportType)
-    
+
     if (foundLinks && foundLinks.length > 0) {
       console.log('---')
-      console.log('## FILE: ', filePath)
+      console.log('## FILE: ', filePath)      
 
-      foundLinks.forEach(link => {
-        
+      for(const link of foundLinks) {
         const convertedLink = linkTypeSelectConverter(link, exportType)
         console.log('- foundLink: ', link.input)
         console.log('- converted: ', convertedLink)
         contentsModified = contentsModified.replace(link.input, convertedLink)
-      });
+      }
 
-      fs.writeFile(filePath, contentsModified, 'utf8', err => {
-        if (err) throw err;
-
-        console.log('### File Modified: ' + filePath);
-      });
-    } 
-    // do i really care about untouched files?
-    //   else {
-    //   console.log('No markdown links found in the file: ' + filePath);
-    // }
-  })
+      await writeFile(filePath, contentsModified, 'utf8')
+      console.log('### File Modified: ' + filePath)
+    }
+    
+  } catch (err) {
+    console.log(err);
+    
+  }
 }
 
-function readDirectory(folderPath:string, exportType:ExportType){
-  fs.readdir(folderPath, (err, filePaths) => {
-    if (err) throw err;
+async function findAllFilePaths(folderPath:string, fileList:string[] = [],  exportType:ExportType){
 
-    filePaths.forEach(file => {
-      const filePath = path.join(folderPath, file)
-      findUrlsAndWriteToFile(filePath, exportType)
-    })
-  })
+  try {
+    const items = await readdir(folderPath)    
+    
+    for(const itemName of items) {
+      
+      const itemPath = `${folderPath}/${itemName}`
+      const stats = await stat(itemPath)
+      
+      if(stats.isFile()) 
+        fileList.push(itemPath)
+      else 
+        if(stats.isDirectory()) 
+          await findAllFilePaths(itemPath, fileList, exportType);
+    }
+
+  } catch (err) { console.error(err) }
+
+  
+  return fileList
+
+  
+  // fs.readdir(folderPath, (err, filePaths) => {
+  //   if (err) throw err;
+
+  //   // filePaths.forEach(file => {
+  //   //   const filePath = path.join(folderPath, file)
+  //   //   processFile(filePath, exportType)
+  //   // })
+  // })
 }
 
 function findTypeSelect(contents:string, exportType:ExportType){
@@ -97,11 +113,17 @@ function linkTypeSelectConverter(link:Link, exportType:ExportType){
   }
 } 
 
+async function app(){
 
-if(process.env.DIRECTORY)
-  readDirectory(process.env.DIRECTORY, process.env.EXPORTTYPE as ExportType)
+  if(process.env.DIRECTORY){
+    const files = await findAllFilePaths(process.env.DIRECTORY, [], process.env.EXPORTTYPE as ExportType)
+    files.map(file => processFile(file, process.env.EXPORTTYPE as ExportType))
+  }
+  
+  if(process.env.FILE)
+    processFile(process.env.FILE, process.env.EXPORTTYPE as ExportType)
+  
+  if(!process.env.DIRECTORY && !process.env.FILE) console.log('Edit `.env` file to include a FILE or DIRECTORY & EXPORTTYPE');
+}
 
-if(process.env.FILE)
-  findUrlsAndWriteToFile(process.env.FILE, process.env.EXPORTTYPE as ExportType)
-
-if(!process.env.DIRECTORY && !process.env.FILE) console.log('Edit `.env` file to include a FILE or DIRECTORY & EXPORTTYPE');
+app()

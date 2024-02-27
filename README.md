@@ -12,6 +12,9 @@ I'll be using [[developer/Projects📐/Markdown Wikilink Examples/Markdown Wikil
 - Run on single file, selected directory, or whole vault
 - Support for alias on wikilinks or markdown links
 
+> [!note] Usage
+> `cp .env.example .env` and edit to desired file or folder
+
 Note apps like [[developer/Home Lab 🏠/Obsidian.md|Obsidian.md]] do not allow characters ` # ^ [ ] |` in their filename. This converter assumes you do not use any of these characters in your filenames
 
 ## Conversion Examples

@@ -9,22 +9,25 @@ export function findMarkdownLinks(text:string) {
   })
   const links = execLinks?.filter(Boolean).map(execLink => {
 
-    if(!execLink) return
+    // if(!execLink) return
+    if(execLink && !execLink[0].includes('(https://') && !execLink[0].includes('(http://')){
 
-    return {
-      input: execLink[0],
-      //? remove `.md` extension 
-      url: execLink[2].replace(/\.[^/.]+$/, ''),
-      alias: execLink[1],
-    }
+      return {
+        input: execLink[0],
+        //? remove `.md` extension 
+        url: execLink[2].replace(/\.[^/.]+$/, ''),
+        alias: execLink[1],
+      }
+    } 
+
   })
   
-  return links as Link[]
+  return links ? links.filter(Boolean) as Link[] : [];
 }
 
 export function convertMarkdownToWikilink(mdLink:Link) {
   //? if external link, do not convert. Prob don't need because wikilinks are only internal
-  if(mdLink.url.startsWith('http')) return mdLink.input
+  // if(mdLink.url.startsWith('http')) return mdLink.input
 
   const urlDecoded = decodeURIComponent(mdLink.url);
   const wikilink = `[[ ${urlDecoded} | ${mdLink.alias} ]]`

@@ -20,15 +20,14 @@
 - [This Problem Changes Your Perspective On Game Dev - YouTube](https://www.youtube.com/watch?v=o5K0uqhxgsE)
 
 ## wikilinks without alias
-now it's withing [[developer/developer_box📦]] a line of text
-
-
-going of the static script of [[developer/GameDev 🕹/Dark Room White Tunnel]]. use [Twine](https://twinery.org/) to construct the branching storylines and mechanics of the game
+[[developer/developer_box📦]]
+[[developer/Linux/Linux]]
+[[developer/Media Software/Docker Compose Media Containers Arrs]]
 
 ## Borked External Links
-- [Home | U.S. Senator Tammy Duckworth of Illinois (senate.gov)](https://www.duckworth.senate.gov/) 
-- [Home | U.S. Senator Tammy Duckworth of Illinois (senate.gov)](https://www.duckworth.senate.gov/) 
-- [Vision in the Rhythm (@visionintherhythm) • Instagram photos and videos](https://www.instagram.com/visionintherhythm/)
-- [William Chorski (@willia_music) • Instagram photos and videos](https://www.instagram.com/willia_music/)
-- [Waiting until a window exists in Applescript? - Ask Different (stackexchange.com)](https://apple.stackexchange.com/questions/121810/waiting-until-a-window-exists-in-applescript)
-- [BC board - Agile board - Jira (atlassian.net)](https://synodicarc.atlassian.net/jira/software/projects/BC/boards/3)
+- [[senate.gov)](https://www.duckworth.senate.gov/|Home | U.S. Senator Tammy Duckworth of Illinois (senate.gov)]] 
+- [[senate.gov)](https://www.duckworth.senate.gov/|Home | U.S. Senator Tammy Duckworth of Illinois (senate.gov)]] 
+- [[@visionintherhythm) • Instagram photos and videos](https://www.instagram.com/visionintherhythm/|Vision in the Rhythm (@visionintherhythm) • Instagram photos and videos]]
+- [[@willia_music) • Instagram photos and videos](https://www.instagram.com/willia_music/|William Chorski (@willia_music) • Instagram photos and videos]]
+- [[stackexchange.com)](https://apple.stackexchange.com/questions/121810/waiting-until-a-window-exists-in-applescript|Waiting until a window exists in Applescript? - Ask Different (stackexchange.com)]]
+- [[atlassian.net)](https://synodicarc.atlassian.net/jira/software/projects/BC/boards/3|BC board - Agile board - Jira (atlassian.net)]]
