@@ -21,8 +21,6 @@ export function findBorkedExternalWililinks(text:string) {
     //? had to re establish regex but without `/gm`
     return (/\[\[(.*?)\]\((.*?)\|(.*?)\]\]/).exec(link)
   })
-  // console.log('--- borked execLinks ---');
-  // console.log(execLinks);
   
   const links = execLinks?.filter(Boolean).map(execLink => {
 
