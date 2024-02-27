@@ -1,105 +1,49 @@
 import fs from 'fs';
 import path from 'path';
+import { addWikilinkAlias, convertWikilinkToMarkdownLink, findWililinks, findWililinksWithNoAlias } from './utils/convertWikilink';
+import { convertMarkdownToWikilink, findMarkdownLinks } from './utils/convertMarkdownLink';
+import { convertBorkedWikilinkToExternalMdLink, findBorkedExternalWililinks } from './utils/convertBorkedExternalWikilinks';
 
-type Link = {
+export type Link = {
   input:string,
   url:string,
   alias:string,
 }
 
-function findMarkdownLinks(text:string) {
-  const foundLinks = text.match(/\[(.*)\]\((.*)\)$/gm)
 
-  const execLinks:(RegExpExecArray | null)[]|undefined = foundLinks?.map(link => {
-    //? had to re establish regex but without `/gm`
-    return (/\[(.*)\]\((.*)\)$/).exec(link)
-  })
-  const links = execLinks?.filter(Boolean).map(execLink => {
-
-    if(!execLink) return
-
-    return {
-      input: execLink[0],
-      //? remove `.md` extension 
-      url: execLink[2].replace(/\.[^/.]+$/, ''),
-      alias: execLink[1],
-    }
-  })
-  
-  return links as Link[]
-}
-
-function findWililinks(text:string) {
-  
-  const foundLinks = text.match(/\[\[(.*)\|(.*)\]\]$/gm)
-
-  const execLinks:(RegExpExecArray | null)[]|undefined = foundLinks?.map(link => {
-    //? had to re establish regex but without `/gm`
-    return (/\[\[(.*)\|(.*)\]\]$/).exec(link)
-  })
-  const links = execLinks?.filter(Boolean).map(execLink => {
-
-    if(!execLink) return
-
-    return {
-      input: execLink[0],
-      //? add `.md` extension 
-      url: execLink[1] + '.md',
-      alias: execLink[2],
-    }
-  })
-  
-  return links as Link[]
-}
-
-function convertMarkdownToWikilink(mdLink:Link) {
-  //? if external link, do not convert. Prob don't need because wikilinks are only internal
-  if(mdLink.url.startsWith('http')) return mdLink.input
-
-  const urlDecoded = decodeURIComponent(mdLink.url);
-  const wikilink = `[[ ${urlDecoded} | ${mdLink.alias} ]]`
-
-  return wikilink
-  
-}
-
-function convertWikilinkToMarkdownLink(wikilink:Link) {
-  //? if external link, do not convert
-  if(wikilink.url.startsWith('http')) return wikilink.input
-
-  // ! encodeURIComponent() converts all special characters which is not what we want
-  // const urlEncoded = encodeURIComponent(link.url);  
-  const splitURI = wikilink.url.replace(/ /g, '%20').split('/')
-  const urlEncoded = splitURI.join('/');
-  const markdownlink = `[${wikilink.alias}](${urlEncoded})`
-
-  return markdownlink
-  
-}
-
-type ExportType = 'wikilink'|'markdownLink'
+type ExportType = 'wikilink'|'markdownLink'|'borkedExternalWiki'|'addWikilinkAlias'
 
 function findUrlsAndWriteToFile(filePath:string, exportType:ExportType) {
+  
+
   fs.readFile(filePath, 'utf8', (err, contents) => {
     if (err) throw err;
 
     let contentsModified = contents
-    const foundMarkdownLinks = (exportType === 'wikilink') ?  findMarkdownLinks(contents) : findWililinks(contents)
+    const foundLinks = findTypeSelect(contents, exportType)
     
-    if (foundMarkdownLinks && foundMarkdownLinks.length > 0) {
-      foundMarkdownLinks.forEach(link => {
-        const convertedLink = (exportType === 'wikilink') ?  convertMarkdownToWikilink(link) : convertWikilinkToMarkdownLink(link)
+    if (foundLinks && foundLinks.length > 0) {
+      console.log('---')
+      console.log('## FILE: ', filePath)
+
+      foundLinks.forEach(link => {
+        
+        const convertedLink = linkTypeSelectConverter(link, exportType)
+        console.log('- foundLink: ', link.input)
+        console.log('- converted: ', convertedLink)
         contentsModified = contentsModified.replace(link.input, convertedLink)
       });
 
       fs.writeFile(filePath, contentsModified, 'utf8', err => {
         if (err) throw err;
 
-        console.log('- File Modified: ' + filePath);
+        console.log('### File Modified: ' + filePath);
       });
-    } else {
-      console.log('No markdown links found in the file: ' + filePath);
-    }
+    } 
+    // do i really care about untouched files?
+    //   else {
+    //   console.log('No markdown links found in the file: ' + filePath);
+    // }
   })
 }
 
@@ -115,5 +59,49 @@ function readDirectory(folderPath:string, exportType:ExportType){
   })
 }
 
-// findUrlsAndWriteToFile('./exampleFolder/note.md', 'wikilink');
-readDirectory('./exampleFolder', 'markdownLink')
+function findTypeSelect(contents:string, exportType:ExportType){
+  switch (exportType) {
+    case 'wikilink':
+      return findMarkdownLinks(contents)
+
+    case 'markdownLink':
+      return findWililinks(contents)
+    
+    case 'addWikilinkAlias':
+      return findWililinksWithNoAlias(contents)
+
+    case 'borkedExternalWiki':
+      return findBorkedExternalWililinks(contents)
+  
+    default:
+      throw Error('not supported type')
+  }
+}
+
+function linkTypeSelectConverter(link:Link, exportType:ExportType){ 
+  switch (exportType) {
+    case 'wikilink':
+      return convertMarkdownToWikilink(link)
+
+    case 'markdownLink':
+      return convertWikilinkToMarkdownLink(link)
+
+    case 'addWikilinkAlias':
+      return addWikilinkAlias(link)
+
+    case 'borkedExternalWiki':
+    return convertBorkedWikilinkToExternalMdLink(link)
+  
+    default:
+      throw Error('not supported type')
+  }
+} 
+
+//? use for files inside this repo
+// findUrlsAndWriteToFile('./exampleFolder/note.md', 'borkedExternalWiki');
+readDirectory('./exampleFolder', 'borkedExternalWiki')
+
+//? testing script with other directories on my system
+// findUrlsAndWriteToFile('~/Volumes/edata/obsidian/pywriter4/50 MacOs Terminal Tips and Tricks', 'wikilink');
+// findUrlsAndWriteToFile('/Volumes/edata/obsidian/pywriter4/developer/emulation 👾/Cemu.md', 'borkedExternalWiki');
+// readDirectory('/Volumes/edata/obsidian/pywriter4/developer/emulation 👾', 'borkedExternalWiki');
