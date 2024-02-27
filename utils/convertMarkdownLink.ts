@@ -1,7 +1,7 @@
 import { Link } from "../app";
 
 export function findMarkdownLinks(text:string) {
-  const foundLinks = text.match(/\[(.*)\]\((.*)\)$/gm)
+  const foundLinks = text.match(/\[(.*)\]\((.*)\)/gm)
 
   const execLinks:(RegExpExecArray | null)[]|undefined = foundLinks?.map(link => {
     //? had to re establish regex but without `/gm`

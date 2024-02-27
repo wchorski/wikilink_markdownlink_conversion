@@ -2,7 +2,7 @@ import { Link } from "../app";
 
 export function findWililinks(text:string) {
   
-  const foundLinks = text.match(/\[\[(.*)\|(.*)\]\]$/gm)
+  const foundLinks = text.match(/\[\[(.*)\|(.*)\]\]/gm)
 
   const execLinks:(RegExpExecArray | null)[]|undefined = foundLinks?.map(link => {
     //? had to re establish regex but without `/gm`
@@ -39,7 +39,9 @@ export function convertWikilinkToMarkdownLink(wikilink:Link) {
 
 export function findWililinksWithNoAlias(text:string) {
   // regex /\[\[([^|\]]*?)\]\]$/ find links between `[[ ]]` but does not contain `|`
-  const foundLinks = text.match(/\[\[([^|\]]*?)\]\]$/gm)
+  const foundLinks = text.match(/\[\[([^|\]]*?)\]\]/gm)
+  console.log(foundLinks);
+  
 
   const execLinks:(RegExpExecArray | null)[]|undefined = foundLinks?.map(link => {
     // todo

@@ -99,9 +99,12 @@ function linkTypeSelectConverter(link:Link, exportType:ExportType){
 
 //? use for files inside this repo
 // findUrlsAndWriteToFile('./exampleFolder/note.md', 'borkedExternalWiki');
-readDirectory('./exampleFolder', 'borkedExternalWiki')
+readDirectory("C:\\Users\\Firea\\obsidian\\pywriter4\\developer\\NodeJS", 'addWikilinkAlias')
 
 //? testing script with other directories on my system
+// findUrlsAndWriteToFile('./exampleFolder/note.md', 'addWikilinkAlias');
+// findUrlsAndWriteToFile("C:\\Users\\Firea\\obsidian\\pywriter4\\developer\\GameDev 🕹\\Game Ideas.md", 'addWikilinkAlias')
+// findUrlsAndWriteToFile("C:\\Users\\Firea\\obsidian\\pywriter4\\developer\\GameDev 🕹\\Games 2 Play.md", 'borkedExternalWiki')
 // findUrlsAndWriteToFile('~/Volumes/edata/obsidian/pywriter4/50 MacOs Terminal Tips and Tricks', 'wikilink');
 // findUrlsAndWriteToFile('/Volumes/edata/obsidian/pywriter4/developer/emulation 👾/Cemu.md', 'borkedExternalWiki');
 // readDirectory('/Volumes/edata/obsidian/pywriter4/developer/emulation 👾', 'borkedExternalWiki');

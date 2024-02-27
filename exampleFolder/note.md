@@ -20,9 +20,10 @@
 - [This Problem Changes Your Perspective On Game Dev - YouTube](https://www.youtube.com/watch?v=o5K0uqhxgsE)
 
 ## wikilinks without alias
-[[developer/developer_box📦|developer_box📦]]
-[[developer/Linux/Linux|Linux]]
-[[developer/Media Software/Docker Compose Media Containers Arrs|Docker Compose Media Containers Arrs]]
+now it's withing [[developer/developer_box📦]] a line of text
+
+
+going of the static script of [[developer/GameDev 🕹/Dark Room White Tunnel]]. use [Twine](https://twinery.org/) to construct the branching storylines and mechanics of the game
 
 ## Borked External Links
 - [Home | U.S. Senator Tammy Duckworth of Illinois (senate.gov)](https://www.duckworth.senate.gov/) 
