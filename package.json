@@ -11,5 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.11.20"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
   }
 }

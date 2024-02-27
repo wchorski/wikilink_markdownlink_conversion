@@ -3,6 +3,7 @@ import path from 'path';
 import { addWikilinkAlias, convertWikilinkToMarkdownLink, findWililinks, findWililinksWithNoAlias } from './utils/convertWikilink';
 import { convertMarkdownToWikilink, findMarkdownLinks } from './utils/convertMarkdownLink';
 import { convertBorkedWikilinkToExternalMdLink, findBorkedExternalWililinks } from './utils/convertBorkedExternalWikilinks';
+require('dotenv').config()
 
 export type Link = {
   input:string,
@@ -51,7 +52,6 @@ function readDirectory(folderPath:string, exportType:ExportType){
   fs.readdir(folderPath, (err, filePaths) => {
     if (err) throw err;
 
-    // console.log(files);
     filePaths.forEach(file => {
       const filePath = path.join(folderPath, file)
       findUrlsAndWriteToFile(filePath, exportType)
