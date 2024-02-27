@@ -31,3 +31,9 @@
 - [[@willia_music) • Instagram photos and videos](https://www.instagram.com/willia_music/|William Chorski (@willia_music) • Instagram photos and videos]]
 - [[stackexchange.com)](https://apple.stackexchange.com/questions/121810/waiting-until-a-window-exists-in-applescript|Waiting until a window exists in Applescript? - Ask Different (stackexchange.com)]]
 - [[atlassian.net)](https://synodicarc.atlassian.net/jira/software/projects/BC/boards/3|BC board - Agile board - Jira (atlassian.net)]]
+- [[www.duckdns.org)](http://www.duckdns.org/|Duck DNS (www.duckdns.org)]]
+- [[developer/[Home Assistant](developer/Home Lab 🏠/Home Assistant.md|Home Assistant]].md)
+- [[#John Hancock Retirement https retirement johnhancock com us en|x]] 
+- [[github.com)](github.com|vrtmrz/obsidian-livesync (github.com)]]
+- [[github.com)](github.com|plexinc/pms-docker: Plex Media Server Docker repo, for all your PMS docker needs. (github.com)]]
+- [[github.com)](https://github.com/vercel/examples/tree/main/solutions/subdomain-auth|x]]

@@ -133,9 +133,11 @@ npx ts-node app.ts
 
 #todo 
 - [ ] ignore text between ` " ` " ` or ` "```" `
+- [ ] ignore callout blocks like `> [!note]` 
 
 ---
 ## Credits
 - https://logfetch.com/vscode-regex-find-and-replace-groups/
 - https://stackoverflow.com/questions/43577528/visual-studio-code-search-and-replace-with-regular-expressions
 - https://stackoverflow.com/questions/332872/encode-url-in-javascript
+- also grabbing checkboxes `- [x]` or `- [ ] note`
