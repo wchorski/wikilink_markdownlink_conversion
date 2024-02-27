@@ -63,16 +63,6 @@ async function findAllFilePaths(folderPath:string, fileList:string[] = [],  expo
 
   
   return fileList
-
-  
-  // fs.readdir(folderPath, (err, filePaths) => {
-  //   if (err) throw err;
-
-  //   // filePaths.forEach(file => {
-  //   //   const filePath = path.join(folderPath, file)
-  //   //   processFile(filePath, exportType)
-  //   // })
-  // })
 }
 
 function findTypeSelect(contents:string, exportType:ExportType){
