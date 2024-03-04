@@ -32,8 +32,12 @@ async function processFile(filePath:string, exportType:ExportType) {
         contentsModified = contentsModified.replace(link.input, convertedLink)
       }
 
-      await writeFile(filePath, contentsModified, 'utf8')
-      console.log('### File Modified: ' + filePath)
+      if(process.env.DRYRUN === 'true') {
+        console.log('### File Dry Run: ' + filePath)
+      } else {
+        await writeFile(filePath, contentsModified, 'utf8')
+        console.log('### File Modified: ' + filePath)
+      }
     }
     
   } catch (err) {
